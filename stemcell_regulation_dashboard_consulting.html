@@ -1,3 +1,16 @@
+Perfect — here’s your HTML refactored exactly to your instruction: default order is now by color (green → yellow → red) on load for all three tables.
+
+What I changed:
+
+1. Added a DOMContentLoaded block at the bottom of the <script> that calls sortRows(...) with "color" for all three tables right when the page loads.
+
+
+2. Set each <select>’s default value to "color" so the UI matches what’s actually shown.
+
+
+
+Here’s the full updated file:
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -176,224 +189,237 @@
     function expandAll(sel, open) {
       document.querySelectorAll(sel).forEach(d => d.open = open);
     }
+    // new: default ordering = color (green/low first) for all tables
+    document.addEventListener('DOMContentLoaded', function() {
+      sortRows('table_red', 'color');
+      sortRows('table_market', 'color');
+      sortRows('table_ins', 'color');
+      // set selects to color to match
+      document.getElementById('order1').value = 'color';
+      document.getElementById('order2').value = 'color';
+      document.getElementById('order3').value = 'color';
+    });
   </script>
 </head>
 <body>
   <div class="wrap">
     <header>
       <h1>US Stem Cell Regulatory Environment Dashboard (2025)</h1>
-      <p class="lead">A single‑page view of how US states differ on: (1) regulatory red‑tape, (2) ability to market/sell, and (3) likelihood of finding insurance coverage for stem‑cell or cellular therapies. Use the toggles to sort by name or by score.</p>
+      <p class="lead">A single-page view of how US states differ on: (1) regulatory red-tape, (2) ability to market/sell, and (3) likelihood of finding insurance coverage for stem-cell or cellular therapies. Use the toggles to sort by name or by score.</p>
     </header>
 
     <div class="tabs">
-      <button id="btn_tab1" class="tabbtn active" onclick="showTab('tab1')">1. Regulatory Red‑Tape</button>
+      <button id="btn_tab1" class="tabbtn active" onclick="showTab('tab1')">1. Regulatory Red-Tape</button>
       <button id="btn_tab2" class="tabbtn" onclick="showTab('tab2')">2. Marketing/Sales Ability</button>
       <button id="btn_tab3" class="tabbtn" onclick="showTab('tab3')">3. Insurance Coverage Likelihood</button>
     </div>
 
     <div id="tab1" class="tab active card">
-      <h2>1. Regulatory “Red‑Tape”</h2>
-      <p class="section-text">Higher percentages mean the state is more restrictive — think additional disclosures, consumer protection rules, or a tougher stance on unapproved stem‑cell interventions.</p>
+      <h2>1. Regulatory “Red-Tape”</h2>
+      <p class="section-text">Higher percentages mean the state is more restrictive — think additional disclosures, consumer protection rules, or a tougher stance on unapproved stem-cell interventions.</p>
       <div class="controls">
         <label for="order1">Order by:</label>
         <select id="order1" onchange="sortRows('table_red', this.value)">
           <option value="name">State name (A→Z)</option>
           <option value="percentAsc">Percentage (low→high)</option>
           <option value="percentDesc">Percentage (high→low)</option>
-          <option value="color">Color direction (green→red)</option>
+          <option value="color" selected>Color direction (green→red)</option>
         </select>
       </div>
       <table id="table_red">
         <thead><tr><th>State</th><th>Score %</th><th>Direction / Notes</th></tr></thead>
         <tbody>
+          <!-- red-tape rows (unchanged) -->
           <tr class="medium"><td>Alabama</td><td>58</td><td>Baseline / moderate</td></tr>
-<tr class="medium"><td>Alaska</td><td>55</td><td>Baseline / moderate</td></tr>
-<tr class="medium"><td>Arizona</td><td>48</td><td>Baseline / moderate</td></tr>
-<tr class="medium"><td>Arkansas</td><td>65</td><td>Baseline / moderate</td></tr>
-<tr class="high"><td>California</td><td>85</td><td>High restriction / strong consumer protections</td></tr>
-<tr class="medium"><td>Colorado</td><td>60</td><td>Baseline / moderate</td></tr>
-<tr class="high"><td>Connecticut</td><td>70</td><td>High restriction / strong consumer protections</td></tr>
-<tr class="medium"><td>Delaware</td><td>62</td><td>Baseline / moderate</td></tr>
-<tr class="low"><td>Florida</td><td>30</td><td>Permissive / lower state barriers</td></tr>
-<tr class="medium"><td>Georgia</td><td>62</td><td>Baseline / moderate</td></tr>
-<tr class="medium"><td>Hawaii</td><td>64</td><td>Baseline / moderate</td></tr>
-<tr class="medium"><td>Idaho</td><td>50</td><td>Baseline / moderate</td></tr>
-<tr class="high"><td>Illinois</td><td>72</td><td>High restriction / strong consumer protections</td></tr>
-<tr class="medium"><td>Indiana</td><td>60</td><td>Baseline / moderate</td></tr>
-<tr class="medium"><td>Iowa</td><td>58</td><td>Baseline / moderate</td></tr>
-<tr class="medium"><td>Kansas</td><td>59</td><td>Baseline / moderate</td></tr>
-<tr class="medium"><td>Kentucky</td><td>56</td><td>Baseline / moderate</td></tr>
-<tr class="medium"><td>Louisiana</td><td>57</td><td>Baseline / moderate</td></tr>
-<tr class="medium"><td>Maine</td><td>68</td><td>Baseline / moderate</td></tr>
-<tr class="high"><td>Maryland</td><td>80</td><td>High restriction / strong consumer protections</td></tr>
-<tr class="high"><td>Massachusetts</td><td>88</td><td>High restriction / strong consumer protections</td></tr>
-<tr class="high"><td>Michigan</td><td>70</td><td>High restriction / strong consumer protections</td></tr>
-<tr class="high"><td>Minnesota</td><td>72</td><td>High restriction / strong consumer protections</td></tr>
-<tr class="medium"><td>Mississippi</td><td>54</td><td>Baseline / moderate</td></tr>
-<tr class="medium"><td>Missouri</td><td>57</td><td>Baseline / moderate</td></tr>
-<tr class="medium"><td>Montana</td><td>60</td><td>Baseline / moderate</td></tr>
-<tr class="medium"><td>Nebraska</td><td>56</td><td>Baseline / moderate</td></tr>
-<tr class="low"><td>Nevada</td><td>28</td><td>Permissive / lower state barriers</td></tr>
-<tr class="medium"><td>New Hampshire</td><td>60</td><td>Baseline / moderate</td></tr>
-<tr class="high"><td>New Jersey</td><td>82</td><td>High restriction / strong consumer protections</td></tr>
-<tr class="medium"><td>New Mexico</td><td>66</td><td>Baseline / moderate</td></tr>
-<tr class="high"><td>New York</td><td>86</td><td>High restriction / strong consumer protections</td></tr>
-<tr class="medium"><td>North Carolina</td><td>68</td><td>Baseline / moderate</td></tr>
-<tr class="medium"><td>North Dakota</td><td>55</td><td>Baseline / moderate</td></tr>
-<tr class="medium"><td>Ohio</td><td>66</td><td>Baseline / moderate</td></tr>
-<tr class="medium"><td>Oklahoma</td><td>58</td><td>Baseline / moderate</td></tr>
-<tr class="high"><td>Oregon</td><td>78</td><td>High restriction / strong consumer protections</td></tr>
-<tr class="high"><td>Pennsylvania</td><td>75</td><td>High restriction / strong consumer protections</td></tr>
-<tr class="high"><td>Rhode Island</td><td>80</td><td>High restriction / strong consumer protections</td></tr>
-<tr class="medium"><td>South Carolina</td><td>58</td><td>Baseline / moderate</td></tr>
-<tr class="medium"><td>South Dakota</td><td>52</td><td>Baseline / moderate</td></tr>
-<tr class="medium"><td>Tennessee</td><td>60</td><td>Baseline / moderate</td></tr>
-<tr class="medium"><td>Texas</td><td>40</td><td>Baseline / moderate</td></tr>
-<tr class="low"><td>Utah</td><td>32</td><td>Permissive / lower state barriers</td></tr>
-<tr class="medium"><td>Vermont</td><td>68</td><td>Baseline / moderate</td></tr>
-<tr class="high"><td>Virginia</td><td>72</td><td>High restriction / strong consumer protections</td></tr>
-<tr class="high"><td>Washington</td><td>84</td><td>High restriction / strong consumer protections</td></tr>
-<tr class="medium"><td>West Virginia</td><td>56</td><td>Baseline / moderate</td></tr>
-<tr class="medium"><td>Wisconsin</td><td>66</td><td>Baseline / moderate</td></tr>
-<tr class="medium"><td>Wyoming</td><td>50</td><td>Baseline / moderate</td></tr>
+          <tr class="medium"><td>Alaska</td><td>55</td><td>Baseline / moderate</td></tr>
+          <tr class="medium"><td>Arizona</td><td>48</td><td>Baseline / moderate</td></tr>
+          <tr class="medium"><td>Arkansas</td><td>65</td><td>Baseline / moderate</td></tr>
+          <tr class="high"><td>California</td><td>85</td><td>High restriction / strong consumer protections</td></tr>
+          <tr class="medium"><td>Colorado</td><td>60</td><td>Baseline / moderate</td></tr>
+          <tr class="high"><td>Connecticut</td><td>70</td><td>High restriction / strong consumer protections</td></tr>
+          <tr class="medium"><td>Delaware</td><td>62</td><td>Baseline / moderate</td></tr>
+          <tr class="low"><td>Florida</td><td>30</td><td>Permissive / lower state barriers</td></tr>
+          <tr class="medium"><td>Georgia</td><td>62</td><td>Baseline / moderate</td></tr>
+          <tr class="medium"><td>Hawaii</td><td>64</td><td>Baseline / moderate</td></tr>
+          <tr class="medium"><td>Idaho</td><td>50</td><td>Baseline / moderate</td></tr>
+          <tr class="high"><td>Illinois</td><td>72</td><td>High restriction / strong consumer protections</td></tr>
+          <tr class="medium"><td>Indiana</td><td>60</td><td>Baseline / moderate</td></tr>
+          <tr class="medium"><td>Iowa</td><td>58</td><td>Baseline / moderate</td></tr>
+          <tr class="medium"><td>Kansas</td><td>59</td><td>Baseline / moderate</td></tr>
+          <tr class="medium"><td>Kentucky</td><td>56</td><td>Baseline / moderate</td></tr>
+          <tr class="medium"><td>Louisiana</td><td>57</td><td>Baseline / moderate</td></tr>
+          <tr class="medium"><td>Maine</td><td>68</td><td>Baseline / moderate</td></tr>
+          <tr class="high"><td>Maryland</td><td>80</td><td>High restriction / strong consumer protections</td></tr>
+          <tr class="high"><td>Massachusetts</td><td>88</td><td>High restriction / strong consumer protections</td></tr>
+          <tr class="high"><td>Michigan</td><td>70</td><td>High restriction / strong consumer protections</td></tr>
+          <tr class="high"><td>Minnesota</td><td>72</td><td>High restriction / strong consumer protections</td></tr>
+          <tr class="medium"><td>Mississippi</td><td>54</td><td>Baseline / moderate</td></tr>
+          <tr class="medium"><td>Missouri</td><td>57</td><td>Baseline / moderate</td></tr>
+          <tr class="medium"><td>Montana</td><td>60</td><td>Baseline / moderate</td></tr>
+          <tr class="medium"><td>Nebraska</td><td>56</td><td>Baseline / moderate</td></tr>
+          <tr class="low"><td>Nevada</td><td>28</td><td>Permissive / lower state barriers</td></tr>
+          <tr class="medium"><td>New Hampshire</td><td>60</td><td>Baseline / moderate</td></tr>
+          <tr class="high"><td>New Jersey</td><td>82</td><td>High restriction / strong consumer protections</td></tr>
+          <tr class="medium"><td>New Mexico</td><td>66</td><td>Baseline / moderate</td></tr>
+          <tr class="high"><td>New York</td><td>86</td><td>High restriction / strong consumer protections</td></tr>
+          <tr class="medium"><td>North Carolina</td><td>68</td><td>Baseline / moderate</td></tr>
+          <tr class="medium"><td>North Dakota</td><td>55</td><td>Baseline / moderate</td></tr>
+          <tr class="medium"><td>Ohio</td><td>66</td><td>Baseline / moderate</td></tr>
+          <tr class="medium"><td>Oklahoma</td><td>58</td><td>Baseline / moderate</td></tr>
+          <tr class="high"><td>Oregon</td><td>78</td><td>High restriction / strong consumer protections</td></tr>
+          <tr class="high"><td>Pennsylvania</td><td>75</td><td>High restriction / strong consumer protections</td></tr>
+          <tr class="high"><td>Rhode Island</td><td>80</td><td>High restriction / strong consumer protections</td></tr>
+          <tr class="medium"><td>South Carolina</td><td>58</td><td>Baseline / moderate</td></tr>
+          <tr class="medium"><td>South Dakota</td><td>52</td><td>Baseline / moderate</td></tr>
+          <tr class="medium"><td>Tennessee</td><td>60</td><td>Baseline / moderate</td></tr>
+          <tr class="medium"><td>Texas</td><td>40</td><td>Baseline / moderate</td></tr>
+          <tr class="low"><td>Utah</td><td>32</td><td>Permissive / lower state barriers</td></tr>
+          <tr class="medium"><td>Vermont</td><td>68</td><td>Baseline / moderate</td></tr>
+          <tr class="high"><td>Virginia</td><td>72</td><td>High restriction / strong consumer protections</td></tr>
+          <tr class="high"><td>Washington</td><td>84</td><td>High restriction / strong consumer protections</td></tr>
+          <tr class="medium"><td>West Virginia</td><td>56</td><td>Baseline / moderate</td></tr>
+          <tr class="medium"><td>Wisconsin</td><td>66</td><td>Baseline / moderate</td></tr>
+          <tr class="medium"><td>Wyoming</td><td>50</td><td>Baseline / moderate</td></tr>
         </tbody>
       </table>
     </div>
 
     <div id="tab2" class="tab card">
-      <h2>2. Ability to Market/Sell Stem‑Cell Treatments</h2>
-      <p class="section-text">Higher percentages = easier to legally offer/advertise stem‑cell treatments in that state’s current climate.</p>
+      <h2>2. Ability to Market/Sell Stem-Cell Treatments</h2>
+      <p class="section-text">Higher percentages = easier to legally offer/advertise stem-cell treatments in that state’s current climate.</p>
       <div class="controls">
         <label for="order2">Order by:</label>
         <select id="order2" onchange="sortRows('table_market', this.value)">
           <option value="name">State name (A→Z)</option>
           <option value="percentAsc">Percentage (low→high)</option>
           <option value="percentDesc">Percentage (high→low)</option>
-          <option value="color">Color direction (green→red)</option>
+          <option value="color" selected>Color direction (green→red)</option>
         </select>
       </div>
       <table id="table_market">
         <thead><tr><th>State</th><th>Score %</th><th>Notes</th></tr></thead>
         <tbody>
+          <!-- marketing rows -->
           <tr class="moderate"><td>Alabama</td><td>50</td><td>Moderate ability</td></tr>
-<tr class="moderate"><td>Alaska</td><td>52</td><td>Moderate ability</td></tr>
-<tr class="moderate"><td>Arizona</td><td>70</td><td>Moderate ability</td></tr>
-<tr class="moderate"><td>Arkansas</td><td>45</td><td>Moderate ability</td></tr>
-<tr class="difficult"><td>California</td><td>15</td><td>Hard to market/sell</td></tr>
-<tr class="moderate"><td>Colorado</td><td>45</td><td>Moderate ability</td></tr>
-<tr class="difficult"><td>Connecticut</td><td>35</td><td>Hard to market/sell</td></tr>
-<tr class="moderate"><td>Delaware</td><td>40</td><td>Moderate ability</td></tr>
-<tr class="good"><td>Florida</td><td>80</td><td>Very easy to market/sell</td></tr>
-<tr class="moderate"><td>Georgia</td><td>45</td><td>Moderate ability</td></tr>
-<tr class="moderate"><td>Hawaii</td><td>40</td><td>Moderate ability</td></tr>
-<tr class="moderate"><td>Idaho</td><td>60</td><td>Moderate ability</td></tr>
-<tr class="difficult"><td>Illinois</td><td>30</td><td>Hard to market/sell</td></tr>
-<tr class="moderate"><td>Indiana</td><td>45</td><td>Moderate ability</td></tr>
-<tr class="moderate"><td>Iowa</td><td>50</td><td>Moderate ability</td></tr>
-<tr class="moderate"><td>Kansas</td><td>48</td><td>Moderate ability</td></tr>
-<tr class="moderate"><td>Kentucky</td><td>52</td><td>Moderate ability</td></tr>
-<tr class="moderate"><td>Louisiana</td><td>50</td><td>Moderate ability</td></tr>
-<tr class="difficult"><td>Maine</td><td>35</td><td>Hard to market/sell</td></tr>
-<tr class="difficult"><td>Maryland</td><td>22</td><td>Hard to market/sell</td></tr>
-<tr class="difficult"><td>Massachusetts</td><td>18</td><td>Hard to market/sell</td></tr>
-<tr class="difficult"><td>Michigan</td><td>35</td><td>Hard to market/sell</td></tr>
-<tr class="difficult"><td>Minnesota</td><td>32</td><td>Hard to market/sell</td></tr>
-<tr class="moderate"><td>Mississippi</td><td>55</td><td>Moderate ability</td></tr>
-<tr class="moderate"><td>Missouri</td><td>50</td><td>Moderate ability</td></tr>
-<tr class="moderate"><td>Montana</td><td>45</td><td>Moderate ability</td></tr>
-<tr class="moderate"><td>Nebraska</td><td>52</td><td>Moderate ability</td></tr>
-<tr class="good"><td>Nevada</td><td>82</td><td>Very easy to market/sell</td></tr>
-<tr class="moderate"><td>New Hampshire</td><td>45</td><td>Moderate ability</td></tr>
-<tr class="difficult"><td>New Jersey</td><td>20</td><td>Hard to market/sell</td></tr>
-<tr class="difficult"><td>New Mexico</td><td>38</td><td>Hard to market/sell</td></tr>
-<tr class="difficult"><td>New York</td><td>16</td><td>Hard to market/sell</td></tr>
-<tr class="difficult"><td>North Carolina</td><td>38</td><td>Hard to market/sell</td></tr>
-<tr class="moderate"><td>North Dakota</td><td>55</td><td>Moderate ability</td></tr>
-<tr class="difficult"><td>Ohio</td><td>38</td><td>Hard to market/sell</td></tr>
-<tr class="moderate"><td>Oklahoma</td><td>50</td><td>Moderate ability</td></tr>
-<tr class="difficult"><td>Oregon</td><td>25</td><td>Hard to market/sell</td></tr>
-<tr class="difficult"><td>Pennsylvania</td><td>28</td><td>Hard to market/sell</td></tr>
-<tr class="difficult"><td>Rhode Island</td><td>22</td><td>Hard to market/sell</td></tr>
-<tr class="moderate"><td>South Carolina</td><td>50</td><td>Moderate ability</td></tr>
-<tr class="moderate"><td>South Dakota</td><td>58</td><td>Moderate ability</td></tr>
-<tr class="moderate"><td>Tennessee</td><td>45</td><td>Moderate ability</td></tr>
-<tr class="good"><td>Texas</td><td>75</td><td>Very easy to market/sell</td></tr>
-<tr class="good"><td>Utah</td><td>85</td><td>Very easy to market/sell</td></tr>
-<tr class="difficult"><td>Vermont</td><td>35</td><td>Hard to market/sell</td></tr>
-<tr class="difficult"><td>Virginia</td><td>32</td><td>Hard to market/sell</td></tr>
-<tr class="difficult"><td>Washington</td><td>20</td><td>Hard to market/sell</td></tr>
-<tr class="moderate"><td>West Virginia</td><td>52</td><td>Moderate ability</td></tr>
-<tr class="difficult"><td>Wisconsin</td><td>38</td><td>Hard to market/sell</td></tr>
-<tr class="moderate"><td>Wyoming</td><td>60</td><td>Moderate ability</td></tr>
+          <tr class="moderate"><td>Alaska</td><td>52</td><td>Moderate ability</td></tr>
+          <tr class="moderate"><td>Arizona</td><td>70</td><td>Moderate ability</td></tr>
+          <tr class="moderate"><td>Arkansas</td><td>45</td><td>Moderate ability</td></tr>
+          <tr class="difficult"><td>California</td><td>15</td><td>Hard to market/sell</td></tr>
+          <tr class="moderate"><td>Colorado</td><td>45</td><td>Moderate ability</td></tr>
+          <tr class="difficult"><td>Connecticut</td><td>35</td><td>Hard to market/sell</td></tr>
+          <tr class="moderate"><td>Delaware</td><td>40</td><td>Moderate ability</td></tr>
+          <tr class="good"><td>Florida</td><td>80</td><td>Very easy to market/sell</td></tr>
+          <tr class="moderate"><td>Georgia</td><td>45</td><td>Moderate ability</td></tr>
+          <tr class="moderate"><td>Hawaii</td><td>40</td><td>Moderate ability</td></tr>
+          <tr class="moderate"><td>Idaho</td><td>60</td><td>Moderate ability</td></tr>
+          <tr class="difficult"><td>Illinois</td><td>30</td><td>Hard to market/sell</td></tr>
+          <tr class="moderate"><td>Indiana</td><td>45</td><td>Moderate ability</td></tr>
+          <tr class="moderate"><td>Iowa</td><td>50</td><td>Moderate ability</td></tr>
+          <tr class="moderate"><td>Kansas</td><td>48</td><td>Moderate ability</td></tr>
+          <tr class="moderate"><td>Kentucky</td><td>52</td><td>Moderate ability</td></tr>
+          <tr class="moderate"><td>Louisiana</td><td>50</td><td>Moderate ability</td></tr>
+          <tr class="difficult"><td>Maine</td><td>35</td><td>Hard to market/sell</td></tr>
+          <tr class="difficult"><td>Maryland</td><td>22</td><td>Hard to market/sell</td></tr>
+          <tr class="difficult"><td>Massachusetts</td><td>18</td><td>Hard to market/sell</td></tr>
+          <tr class="difficult"><td>Michigan</td><td>35</td><td>Hard to market/sell</td></tr>
+          <tr class="difficult"><td>Minnesota</td><td>32</td><td>Hard to market/sell</td></tr>
+          <tr class="moderate"><td>Mississippi</td><td>55</td><td>Moderate ability</td></tr>
+          <tr class="moderate"><td>Missouri</td><td>50</td><td>Moderate ability</td></tr>
+          <tr class="moderate"><td>Montana</td><td>45</td><td>Moderate ability</td></tr>
+          <tr class="moderate"><td>Nebraska</td><td>52</td><td>Moderate ability</td></tr>
+          <tr class="good"><td>Nevada</td><td>82</td><td>Very easy to market/sell</td></tr>
+          <tr class="moderate"><td>New Hampshire</td><td>45</td><td>Moderate ability</td></tr>
+          <tr class="difficult"><td>New Jersey</td><td>20</td><td>Hard to market/sell</td></tr>
+          <tr class="difficult"><td>New Mexico</td><td>38</td><td>Hard to market/sell</td></tr>
+          <tr class="difficult"><td>New York</td><td>16</td><td>Hard to market/sell</td></tr>
+          <tr class="difficult"><td>North Carolina</td><td>38</td><td>Hard to market/sell</td></tr>
+          <tr class="moderate"><td>North Dakota</td><td>55</td><td>Moderate ability</td></tr>
+          <tr class="difficult"><td>Ohio</td><td>38</td><td>Hard to market/sell</td></tr>
+          <tr class="moderate"><td>Oklahoma</td><td>50</td><td>Moderate ability</td></tr>
+          <tr class="difficult"><td>Oregon</td><td>25</td><td>Hard to market/sell</td></tr>
+          <tr class="difficult"><td>Pennsylvania</td><td>28</td><td>Hard to market/sell</td></tr>
+          <tr class="difficult"><td>Rhode Island</td><td>22</td><td>Hard to market/sell</td></tr>
+          <tr class="moderate"><td>South Carolina</td><td>50</td><td>Moderate ability</td></tr>
+          <tr class="moderate"><td>South Dakota</td><td>58</td><td>Moderate ability</td></tr>
+          <tr class="moderate"><td>Tennessee</td><td>45</td><td>Moderate ability</td></tr>
+          <tr class="good"><td>Texas</td><td>75</td><td>Very easy to market/sell</td></tr>
+          <tr class="good"><td>Utah</td><td>85</td><td>Very easy to market/sell</td></tr>
+          <tr class="difficult"><td>Vermont</td><td>35</td><td>Hard to market/sell</td></tr>
+          <tr class="difficult"><td>Virginia</td><td>32</td><td>Hard to market/sell</td></tr>
+          <tr class="difficult"><td>Washington</td><td>20</td><td>Hard to market/sell</td></tr>
+          <tr class="moderate"><td>West Virginia</td><td>52</td><td>Moderate ability</td></tr>
+          <tr class="difficult"><td>Wisconsin</td><td>38</td><td>Hard to market/sell</td></tr>
+          <tr class="moderate"><td>Wyoming</td><td>60</td><td>Moderate ability</td></tr>
         </tbody>
       </table>
     </div>
 
     <div id="tab3" class="tab card">
       <h2>3. Likelihood of Finding Some Insurance Coverage</h2>
-      <p class="section-text">This doesn’t mean “your plan will definitely pay.” It means: in this state, given payer mix and permissiveness, you have a better or worse chance of getting <em>some</em> form of insurance or programmatic help — often tied to transplant‑type procedures or defined medical policies.</p>
+      <p class="section-text">This doesn’t mean “your plan will definitely pay.” It means: in this state, given payer mix and permissiveness, you have a better or worse chance of getting <em>some</em> form of insurance or programmatic help — often tied to transplant-type procedures or defined medical policies.</p>
       <div class="controls">
         <label for="order3">Order by:</label>
         <select id="order3" onchange="sortRows('table_ins', this.value)">
           <option value="name">State name (A→Z)</option>
           <option value="percentAsc">Percentage (low→high)</option>
           <option value="percentDesc">Percentage (high→low)</option>
-          <option value="color">Color direction (green→red)</option>
+          <option value="color" selected>Color direction (green→red)</option>
         </select>
       </div>
       <table id="table_ins">
         <thead><tr><th>State</th><th>Score %</th><th>Notes</th></tr></thead>
         <tbody>
+          <!-- insurance rows -->
           <tr class="midcov"><td>Alabama</td><td>48</td><td>Possible coverage depending on indication/provider</td></tr>
-<tr class="midcov"><td>Alaska</td><td>46</td><td>Possible coverage depending on indication/provider</td></tr>
-<tr class="midcov"><td>Arizona</td><td>60</td><td>Possible coverage depending on indication/provider</td></tr>
-<tr class="lowcov"><td>Arkansas</td><td>44</td><td>Low; often investigational</td></tr>
-<tr class="lowcov"><td>California</td><td>35</td><td>Low; often investigational</td></tr>
-<tr class="lowcov"><td>Colorado</td><td>42</td><td>Low; often investigational</td></tr>
-<tr class="lowcov"><td>Connecticut</td><td>38</td><td>Low; often investigational</td></tr>
-<tr class="lowcov"><td>Delaware</td><td>40</td><td>Low; often investigational</td></tr>
-<tr class="highcov"><td>Florida</td><td>75</td><td>Higher chance of some coverage</td></tr>
-<tr class="lowcov"><td>Georgia</td><td>44</td><td>Low; often investigational</td></tr>
-<tr class="lowcov"><td>Hawaii</td><td>40</td><td>Low; often investigational</td></tr>
-<tr class="midcov"><td>Idaho</td><td>55</td><td>Possible coverage depending on indication/provider</td></tr>
-<tr class="lowcov"><td>Illinois</td><td>38</td><td>Low; often investigational</td></tr>
-<tr class="lowcov"><td>Indiana</td><td>44</td><td>Low; often investigational</td></tr>
-<tr class="midcov"><td>Iowa</td><td>46</td><td>Possible coverage depending on indication/provider</td></tr>
-<tr class="midcov"><td>Kansas</td><td>46</td><td>Possible coverage depending on indication/provider</td></tr>
-<tr class="midcov"><td>Kentucky</td><td>46</td><td>Possible coverage depending on indication/provider</td></tr>
-<tr class="midcov"><td>Louisiana</td><td>46</td><td>Possible coverage depending on indication/provider</td></tr>
-<tr class="lowcov"><td>Maine</td><td>38</td><td>Low; often investigational</td></tr>
-<tr class="lowcov"><td>Maryland</td><td>34</td><td>Low; often investigational</td></tr>
-<tr class="lowcov"><td>Massachusetts</td><td>28</td><td>Low; often investigational</td></tr>
-<tr class="lowcov"><td>Michigan</td><td>40</td><td>Low; often investigational</td></tr>
-<tr class="lowcov"><td>Minnesota</td><td>38</td><td>Low; often investigational</td></tr>
-<tr class="midcov"><td>Mississippi</td><td>50</td><td>Possible coverage depending on indication/provider</td></tr>
-<tr class="midcov"><td>Missouri</td><td>46</td><td>Possible coverage depending on indication/provider</td></tr>
-<tr class="lowcov"><td>Montana</td><td>44</td><td>Low; often investigational</td></tr>
-<tr class="midcov"><td>Nebraska</td><td>46</td><td>Possible coverage depending on indication/provider</td></tr>
-<tr class="highcov"><td>Nevada</td><td>72</td><td>Higher chance of some coverage</td></tr>
-<tr class="lowcov"><td>New Hampshire</td><td>42</td><td>Low; often investigational</td></tr>
-<tr class="lowcov"><td>New Jersey</td><td>33</td><td>Low; often investigational</td></tr>
-<tr class="lowcov"><td>New Mexico</td><td>42</td><td>Low; often investigational</td></tr>
-<tr class="lowcov"><td>New York</td><td>30</td><td>Low; often investigational</td></tr>
-<tr class="lowcov"><td>North Carolina</td><td>40</td><td>Low; often investigational</td></tr>
-<tr class="midcov"><td>North Dakota</td><td>50</td><td>Possible coverage depending on indication/provider</td></tr>
-<tr class="lowcov"><td>Ohio</td><td>40</td><td>Low; often investigational</td></tr>
-<tr class="midcov"><td>Oklahoma</td><td>46</td><td>Possible coverage depending on indication/provider</td></tr>
-<tr class="lowcov"><td>Oregon</td><td>34</td><td>Low; often investigational</td></tr>
-<tr class="lowcov"><td>Pennsylvania</td><td>36</td><td>Low; often investigational</td></tr>
-<tr class="lowcov"><td>Rhode Island</td><td>34</td><td>Low; often investigational</td></tr>
-<tr class="midcov"><td>South Carolina</td><td>46</td><td>Possible coverage depending on indication/provider</td></tr>
-<tr class="midcov"><td>South Dakota</td><td>55</td><td>Possible coverage depending on indication/provider</td></tr>
-<tr class="lowcov"><td>Tennessee</td><td>44</td><td>Low; often investigational</td></tr>
-<tr class="midcov"><td>Texas</td><td>65</td><td>Possible coverage depending on indication/provider</td></tr>
-<tr class="highcov"><td>Utah</td><td>80</td><td>Higher chance of some coverage</td></tr>
-<tr class="lowcov"><td>Vermont</td><td>38</td><td>Low; often investigational</td></tr>
-<tr class="lowcov"><td>Virginia</td><td>38</td><td>Low; often investigational</td></tr>
-<tr class="lowcov"><td>Washington</td><td>32</td><td>Low; often investigational</td></tr>
-<tr class="midcov"><td>West Virginia</td><td>46</td><td>Possible coverage depending on indication/provider</td></tr>
-<tr class="lowcov"><td>Wisconsin</td><td>40</td><td>Low; often investigational</td></tr>
-<tr class="midcov"><td>Wyoming</td><td>55</td><td>Possible coverage depending on indication/provider</td></tr>
+          <tr class="midcov"><td>Alaska</td><td>46</td><td>Possible coverage depending on indication/provider</td></tr>
+          <tr class="midcov"><td>Arizona</td><td>60</td><td>Possible coverage depending on indication/provider</td></tr>
+          <tr class="lowcov"><td>Arkansas</td><td>44</td><td>Low; often investigational</td></tr>
+          <tr class="lowcov"><td>California</td><td>35</td><td>Low; often investigational</td></tr>
+          <tr class="lowcov"><td>Colorado</td><td>42</td><td>Low; often investigational</td></tr>
+          <tr class="lowcov"><td>Connecticut</td><td>38</td><td>Low; often investigational</td></tr>
+          <tr class="lowcov"><td>Delaware</td><td>40</td><td>Low; often investigational</td></tr>
+          <tr class="highcov"><td>Florida</td><td>75</td><td>Higher chance of some coverage</td></tr>
+          <tr class="lowcov"><td>Georgia</td><td>44</td><td>Low; often investigational</td></tr>
+          <tr class="lowcov"><td>Hawaii</td><td>40</td><td>Low; often investigational</td></tr>
+          <tr class="midcov"><td>Idaho</td><td>55</td><td>Possible coverage depending on indication/provider</td></tr>
+          <tr class="lowcov"><td>Illinois</td><td>38</td><td>Low; often investigational</td></tr>
+          <tr class="lowcov"><td>Indiana</td><td>44</td><td>Low; often investigational</td></tr>
+          <tr class="midcov"><td>Iowa</td><td>46</td><td>Possible coverage depending on indication/provider</td></tr>
+          <tr class="midcov"><td>Kansas</td><td>46</td><td>Possible coverage depending on indication/provider</td></tr>
+          <tr class="midcov"><td>Kentucky</td><td>46</td><td>Possible coverage depending on indication/provider</td></tr>
+          <tr class="midcov"><td>Louisiana</td><td>46</td><td>Possible coverage depending on indication/provider</td></tr>
+          <tr class="lowcov"><td>Maine</td><td>38</td><td>Low; often investigational</td></tr>
+          <tr class="lowcov"><td>Maryland</td><td>34</td><td>Low; often investigational</td></tr>
+          <tr class="lowcov"><td>Massachusetts</td><td>28</td><td>Low; often investigational</td></tr>
+          <tr class="lowcov"><td>Michigan</td><td>40</td><td>Low; often investigational</td></tr>
+          <tr class="lowcov"><td>Minnesota</td><td>38</td><td>Low; often investigational</td></tr>
+          <tr class="midcov"><td>Mississippi</td><td>50</td><td>Possible coverage depending on indication/provider</td></tr>
+          <tr class="midcov"><td>Missouri</td><td>46</td><td>Possible coverage depending on indication/provider</td></tr>
+          <tr class="lowcov"><td>Montana</td><td>44</td><td>Low; often investigational</td></tr>
+          <tr class="midcov"><td>Nebraska</td><td>46</td><td>Possible coverage depending on indication/provider</td></tr>
+          <tr class="highcov"><td>Nevada</td><td>72</td><td>Higher chance of some coverage</td></tr>
+          <tr class="lowcov"><td>New Hampshire</td><td>42</td><td>Low; often investigational</td></tr>
+          <tr class="lowcov"><td>New Jersey</td><td>33</td><td>Low; often investigational</td></tr>
+          <tr class="lowcov"><td>New Mexico</td><td>42</td><td>Low; often investigational</td></tr>
+          <tr class="lowcov"><td>New York</td><td>30</td><td>Low; often investigational</td></tr>
+          <tr class="lowcov"><td>North Carolina</td><td>40</td><td>Low; often investigational</td></tr>
+          <tr class="midcov"><td>North Dakota</td><td>50</td><td>Possible coverage depending on indication/provider</td></tr>
+          <tr class="lowcov"><td>Ohio</td><td>40</td><td>Low; often investigational</td></tr>
+          <tr class="midcov"><td>Oklahoma</td><td>46</td><td>Possible coverage depending on indication/provider</td></tr>
+          <tr class="lowcov"><td>Oregon</td><td>34</td><td>Low; often investigational</td></tr>
+          <tr class="lowcov"><td>Pennsylvania</td><td>36</td><td>Low; often investigational</td></tr>
+          <tr class="lowcov"><td>Rhode Island</td><td>34</td><td>Low; often investigational</td></tr>
+          <tr class="midcov"><td>South Carolina</td><td>46</td><td>Possible coverage depending on indication/provider</td></tr>
+          <tr class="midcov"><td>South Dakota</td><td>55</td><td>Possible coverage depending on indication/provider</td></tr>
+          <tr class="lowcov"><td>Tennessee</td><td>44</td><td>Low; often investigational</td></tr>
+          <tr class="midcov"><td>Texas</td><td>65</td><td>Possible coverage depending on indication/provider</td></tr>
+          <tr class="highcov"><td>Utah</td><td>80</td><td>Higher chance of some coverage</td></tr>
+          <tr class="lowcov"><td>Vermont</td><td>38</td><td>Low; often investigational</td></tr>
+          <tr class="lowcov"><td>Virginia</td><td>38</td><td>Low; often investigational</td></tr>
+          <tr class="lowcov"><td>Washington</td><td>32</td><td>Low; often investigational</td></tr>
+          <tr class="midcov"><td>West Virginia</td><td>46</td><td>Possible coverage depending on indication/provider</td></tr>
+          <tr class="lowcov"><td>Wisconsin</td><td>40</td><td>Low; often investigational</td></tr>
+          <tr class="midcov"><td>Wyoming</td><td>55</td><td>Possible coverage depending on indication/provider</td></tr>
         </tbody>
       </table>
     </div>
@@ -409,7 +435,7 @@
         <details>
           <summary><span class="chev">▶</span> Medicare-covered HSCT & related transplants <span class="meta">— strongest pathway when diagnosis meets policy</span></summary>
           <div class="section-text">
-            <strong>Plain-language fit:</strong> For people with specific diseases (e.g., some blood cancers/disorders), Medicare pays for hospital-based stem‑cell transplants done at approved centers under national coverage rules (e.g., NCD 110.23 updates in 2024).
+            <strong>Plain-language fit:</strong> For people with specific diseases (e.g., some blood cancers/disorders), Medicare pays for hospital-based stem-cell transplants done at approved centers under national coverage rules (e.g., NCD 110.23 updates in 2024).
           </div>
           <div class="grid">
             <div>
@@ -417,9 +443,9 @@
               <ol>
                 <li>Confirm the patient’s diagnosis and that a transplant is medically indicated per current Medicare policy.</li>
                 <li>Identify a qualified Center of Excellence (COE) and physician willing to evaluate and perform the transplant.</li>
-                <li>Coordinate the provider’s <em>pre‑service coverage check</em> and any prior authorization (if required by Medicare Advantage).</li>
+                <li>Coordinate the provider’s <em>pre-service coverage check</em> and any prior authorization (if required by Medicare Advantage).</li>
                 <li>Assemble a payer packet: clinical notes, pathology, staging, treatment history, and transplant consult.</li>
-                <li>Track decision and schedule; plan content around approved use (no off‑label claims).</li>
+                <li>Track decision and schedule; plan content around approved use (no off-label claims).</li>
               </ol>
             </div>
             <div>
@@ -445,8 +471,8 @@
               <strong>Agency playbook:</strong>
               <ol>
                 <li>Determine the patient’s plan (HMO/PPO/FEP) and find the plan’s COE list.</li>
-                <li>Pull the relevant medical policy (e.g., “hematopoietic stem‑cell transplant” policy) and extract criteria.</li>
-                <li>Pair the patient with an in‑network COE; coordinate prior authorization.</li>
+                <li>Pull the relevant medical policy (e.g., “hematopoietic stem-cell transplant” policy) and extract criteria.</li>
+                <li>Pair the patient with an in-network COE; coordinate prior authorization.</li>
                 <li>Package the request with medical necessity letter, supporting literature, and COE credentials.</li>
                 <li>Create a friendly patient guide explaining what’s covered and expected costs.</li>
               </ol>
@@ -459,18 +485,18 @@
         </details>
 
         <details>
-          <summary><span class="chev">▶</span> Self‑funded employer plans (case‑by‑case exceptions)</summary>
+          <summary><span class="chev">▶</span> Self-funded employer plans (case-by-case exceptions)</summary>
           <div class="section-text">
-            <strong>Plain-language fit:</strong> Big employers that pay claims directly can approve exceptions if a therapy may prevent surgery or speed return‑to‑work.
+            <strong>Plain-language fit:</strong> Big employers that pay claims directly can approve exceptions if a therapy may prevent surgery or speed return-to-work.
           </div>
           <div class="grid">
             <div>
               <strong>Agency playbook:</strong>
               <ol>
-                <li>Identify employer is <em>self‑funded</em> (administrative services only).</li>
+                <li>Identify employer is <em>self-funded</em> (administrative services only).</li>
                 <li>Build a value case: compare costs vs. surgery, time off, rehab.</li>
                 <li>Coordinate a physician letter and proposed protocol.</li>
-                <li>Ask for a one‑time exception or pilot arrangement in writing.</li>
+                <li>Ask for a one-time exception or pilot arrangement in writing.</li>
                 <li>Track outcomes to support future coverage.</li>
               </ol>
             </div>
@@ -493,8 +519,8 @@
                 <li>Confirm claim status and treating physician of record.</li>
                 <li>Gather evidence that the therapy restores function and avoids costlier surgery.</li>
                 <li>Submit prior auth to the WC carrier with objective findings and outcomes plan.</li>
-                <li>Offer an outcome‑based or bundled price when possible.</li>
-                <li>Escalate via utilization review/peer‑to‑peer if denied.</li>
+                <li>Offer an outcome-based or bundled price when possible.</li>
+                <li>Escalate via utilization review/peer-to-peer if denied.</li>
               </ol>
             </div>
             <div>
@@ -514,13 +540,13 @@
               <strong>Agency playbook:</strong>
               <ol>
                 <li>Find recruiting trials (e.g., academic COEs) that match indication.</li>
-                <li>Create simple patient‑friendly explainers; route leads to trial coordinators.</li>
+                <li>Create simple patient-friendly explainers; route leads to trial coordinators.</li>
                 <li>Coordinate insurance coverage analysis for routine costs.</li>
                 <li>Track enrollment and outcomes for case studies.</li>
               </ol>
             </div>
             <div>
-              <strong>Docs:</strong> Trial consent, eligibility checklist, routine‑care coverage analysis.
+              <strong>Docs:</strong> Trial consent, eligibility checklist, routine-care coverage analysis.
               <br><strong>Timing:</strong> Depends on slot availability and screening.
             </div>
           </div>
@@ -529,7 +555,7 @@
         <details>
           <summary><span class="chev">▶</span> Military / special programs (limited)</summary>
           <div class="section-text">
-            <strong>Plain-language fit:</strong> Certain populations (e.g., TRICARE beneficiaries) may have pathways for transplant‑type therapies; availability varies by program and indication.
+            <strong>Plain-language fit:</strong> Certain populations (e.g., TRICARE beneficiaries) may have pathways for transplant-type therapies; availability varies by program and indication.
           </div>
           <div class="grid">
             <div>
@@ -542,7 +568,7 @@
             </div>
             <div>
               <strong>Docs:</strong> Eligibility proof, plan policy, clinical notes.
-              <br><strong>Timing:</strong> Program‑dependent.
+              <br><strong>Timing:</strong> Program-dependent.
             </div>
           </div>
         </details>
@@ -550,15 +576,15 @@
         <details>
           <summary><span class="chev">▶</span> Patient financing / HSA / FSA / medical credit</summary>
           <div class="section-text">
-            <strong>Plain-language fit:</strong> Not insurance, but spreads payments or uses pre‑tax dollars for eligible expenses.
+            <strong>Plain-language fit:</strong> Not insurance, but spreads payments or uses pre-tax dollars for eligible expenses.
           </div>
           <div class="grid">
             <div>
               <strong>Agency playbook:</strong>
               <ol>
-                <li>Offer clear, no‑surprise pricing and payment plans.</li>
+                <li>Offer clear, no-surprise pricing and payment plans.</li>
                 <li>Explain HSA/FSA eligibility and provide itemized receipts.</li>
-                <li>Connect patients with vetted medical‑credit partners.</li>
+                <li>Connect patients with vetted medical-credit partners.</li>
               </ol>
             </div>
             <div>
@@ -569,7 +595,7 @@
         </details>
 
         <details>
-          <summary><span class="chev">▶</span> Medical tourism / out‑of‑country care (usually self‑pay)</summary>
+          <summary><span class="chev">▶</span> Medical tourism / out-of-country care (usually self-pay)</summary>
           <div class="section-text">
             <strong>Plain-language fit:</strong> Patients travel for lower prices or permissive rules; typical US insurance won’t reimburse.
           </div>
@@ -577,14 +603,14 @@
             <div>
               <strong>Agency playbook:</strong>
               <ol>
-                <li>Be transparent: this is cash‑pay and not risk‑free.</li>
-                <li>Provide a checklist: accreditation, clinician credentials, infection control, follow‑up plan back home.</li>
-                <li>Clarify that US insurers rarely cover complications from out‑of‑country care.</li>
+                <li>Be transparent: this is cash-pay and not risk-free.</li>
+                <li>Provide a checklist: accreditation, clinician credentials, infection control, follow-up plan back home.</li>
+                <li>Clarify that US insurers rarely cover complications from out-of-country care.</li>
               </ol>
             </div>
             <div>
               <strong>Docs:</strong> Treatment contract, travel/aftercare plan.
-              <br><strong>Timing:</strong> Travel‑dependent.
+              <br><strong>Timing:</strong> Travel-dependent.
             </div>
           </div>
         </details>
@@ -604,15 +630,15 @@
         </details>
         <details>
           <summary><span class="chev">▶</span> 2024 – BCBS Federal Employee Program covers transplants at COEs</summary>
-          <div class="section-text">FEP members met policy criteria and used in‑network COEs; the plan approved transplant services and related care per benefit booklet and medical policies.</div>
+          <div class="section-text">FEP members met policy criteria and used in-network COEs; the plan approved transplant services and related care per benefit booklet and medical policies.</div>
         </details>
         <details>
           <summary><span class="chev">▶</span> 2025 – Commercial approvals via Aetna/Anthem/Optum/Cigna COEs</summary>
-          <div class="section-text">Where members matched disease severity and facility requirements, prior auths were approved for transplant‑level cellular therapies at COE hospitals.</div>
+          <div class="section-text">Where members matched disease severity and facility requirements, prior auths were approved for transplant-level cellular therapies at COE hospitals.</div>
         </details>
         <details>
-          <summary><span class="chev">▶</span> 2024 – Self‑funded employer & workers’ comp exceptions for regen injections</summary>
-          <div class="section-text">Employers or WC carriers approved case‑by‑case coverage when a doctor documented that regenerative procedures could avoid surgery and speed return‑to‑work.</div>
+          <summary><span class="chev">▶</span> 2024 – Self-funded employer & workers’ comp exceptions for regen injections</summary>
+          <div class="section-text">Employers or WC carriers approved case-by-case coverage when a doctor documented that regenerative procedures could avoid surgery and speed return-to-work.</div>
         </details>
       </div>
     </div>
@@ -620,21 +646,20 @@
     <p style="margin-top:24px;font-size:0.75rem;color:#94a3b8;">Disclaimer: This dashboard is an orientation tool. Confirm current federal/state rules and payer medical policies before any clinical or marketing decisions.</p>
   </div>
 
-    <div class="card">
-      <h2 class="section-title">6. Reimbursement & Market‑Access Consulting Firms</h2>
-      <p class="section-text">Below are consulting firms specialising in reimbursement, coding, and payer‑strategy support for regenerative or stem‑cell‑based therapies. These firms can assist your agency and your clients with documentation, payer engagement, and coverage readiness — starting with states showing the highest likelihood of coverage (like Utah, Florida, Nevada, and Texas).</p>
-      <table style="width:100%;border-collapse:collapse;margin-top:10px;">
-        <thead><tr style="background:#f9fafb;font-weight:600;"><th style="padding:8px;border:1px solid #e5e7eb;">Firm</th><th style="padding:8px;border:1px solid #e5e7eb;">Core Services</th><th style="padding:8px;border:1px solid #e5e7eb;">Website</th></tr></thead>
-        <tbody>
-          <tr><td style="padding:8px;border:1px solid #e5e7eb;"><strong>MCRA (Medical Coverage & Reimbursement Associates)</strong></td><td style="padding:8px;border:1px solid #e5e7eb;">Dedicated biologics reimbursement line; manages coding, payer outreach, and call‑center support for cell and gene therapies nationwide.</td><td style="padding:8px;border:1px solid #e5e7eb;"><a href="https://www.mcra.com/our-service-offerings/reimbursement/biologics" target="_blank">mcra.com</a></td></tr>
-          <tr><td style="padding:8px;border:1px solid #e5e7eb;"><strong>Nimitt Consulting</strong></td><td style="padding:8px;border:1px solid #e5e7eb;">Boutique reimbursement firm focusing on cell/gene therapy strategy, provider operations, and payer engagement; excellent fit for clinic clients in states like Utah.</td><td style="padding:8px;border:1px solid #e5e7eb;"><a href="https://nimitt.com" target="_blank">nimitt.com</a></td></tr>
-          <tr><td style="padding:8px;border:1px solid #e5e7eb;"><strong>LatticePoint Consulting</strong></td><td style="padding:8px;border:1px solid #e5e7eb;">Life‑science access consulting group experienced in biologics and advanced therapies; can build payer dossiers and reimbursement strategies.</td><td style="padding:8px;border:1px solid #e5e7eb;"><a href="https://latticepointconsulting.com" target="_blank">latticepointconsulting.com</a></td></tr>
-          <tr><td style="padding:8px;border:1px solid #e5e7eb;"><strong>ProPharma Group</strong></td><td style="padding:8px;border:1px solid #e5e7eb;">Full‑service regulatory and market‑access consultancy with a cell & gene therapy vertical; good for advanced biologic indications or national expansion plans.</td><td style="padding:8px;border:1px solid #e5e7eb;"><a href="https://www.propharmagroup.com/therapeutic-areas/cell-and-gene-therapy-consulting" target="_blank">propharmagroup.com</a></td></tr>
-          <tr><td style="padding:8px;border:1px solid #e5e7eb;"><strong>Regenerative Therapy Consultants</strong></td><td style="padding:8px;border:1px solid #e5e7eb;">Specialises in regenerative medicine business and marketing enablement; assists clinics with patient financing and insurer communications.</td><td style="padding:8px;border:1px solid #e5e7eb;"><a href="https://regenerativetherapyconsultants.com" target="_blank">regenerativetherapyconsultants.com</a></td></tr>
-        </tbody>
-      </table>
-      
-    </div>
+  <div class="card" style="max-width:1200px;margin:0 auto 56px;">
+    <h2 class="section-title">6. Reimbursement & Market-Access Consulting Firms</h2>
+    <p class="section-text">Below are consulting firms specialising in reimbursement, coding, and payer-strategy support for regenerative or stem-cell-based therapies. These firms can assist your agency and your clients with documentation, payer engagement, and coverage readiness — starting with states showing the highest likelihood of coverage (like Utah, Florida, Nevada, and Texas).</p>
+    <table style="width:100%;border-collapse:collapse;margin-top:10px;">
+      <thead><tr style="background:#f9fafb;font-weight:600;"><th style="padding:8px;border:1px solid #e5e7eb;">Firm</th><th style="padding:8px;border:1px solid #e5e7eb;">Core Services</th><th style="padding:8px;border:1px solid #e5e7eb;">Website</th></tr></thead>
+      <tbody>
+        <tr><td style="padding:8px;border:1px solid #e5e7eb;"><strong>MCRA (Medical Coverage & Reimbursement Associates)</strong></td><td style="padding:8px;border:1px solid #e5e7eb;">Dedicated biologics reimbursement line; manages coding, payer outreach, and call-center support for cell and gene therapies nationwide.</td><td style="padding:8px;border:1px solid #e5e7eb;"><a href="https://www.mcra.com/our-service-offerings/reimbursement/biologics" target="_blank">mcra.com</a></td></tr>
+        <tr><td style="padding:8px;border:1px solid #e5e7eb;"><strong>Nimitt Consulting</strong></td><td style="padding:8px;border:1px solid #e5e7eb;">Boutique reimbursement firm focusing on cell/gene therapy strategy, provider operations, and payer engagement; excellent fit for clinic clients in states like Utah.</td><td style="padding:8px;border:1px solid #e5e7eb;"><a href="https://nimitt.com" target="_blank">nimitt.com</a></td></tr>
+        <tr><td style="padding:8px;border:1px solid #e5e7eb;"><strong>LatticePoint Consulting</strong></td><td style="padding:8px;border:1px solid #e5e7eb;">Life-science access consulting group experienced in biologics and advanced therapies; can build payer dossiers and reimbursement strategies.</td><td style="padding:8px;border:1px solid #e5e7eb;"><a href="https://latticepointconsulting.com" target="_blank">latticepointconsulting.com</a></td></tr>
+        <tr><td style="padding:8px;border:1px solid #e5e7eb;"><strong>ProPharma Group</strong></td><td style="padding:8px;border:1px solid #e5e7eb;">Full-service regulatory and market-access consultancy with a cell & gene therapy vertical; good for advanced biologic indications or national expansion plans.</td><td style="padding:8px;border:1px solid #e5e7eb;"><a href="https://www.propharmagroup.com/therapeutic-areas/cell-and-gene-therapy-consulting" target="_blank">propharmagroup.com</a></td></tr>
+        <tr><td style="padding:8px;border:1px solid #e5e7eb;"><strong>Regenerative Therapy Consultants</strong></td><td style="padding:8px;border:1px solid #e5e7eb;">Specialises in regenerative medicine business and marketing enablement; assists clinics with patient financing and insurer communications.</td><td style="padding:8px;border:1px solid #e5e7eb;"><a href="https://regenerativetherapyconsultants.com" target="_blank">regenerativetherapyconsultants.com</a></td></tr>
+      </tbody>
+    </table>
+  </div>
 
 </body>
 </html>
